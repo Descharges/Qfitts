@@ -10,9 +10,11 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    maintest.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    maintest.h \
     mainwindow.h
 
 # Default rules for deployment.

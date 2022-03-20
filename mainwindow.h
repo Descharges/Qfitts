@@ -9,7 +9,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr, int screenW=1920, int screenH=1080);
+    MainWindow(QWidget *parent = nullptr, int screenW=900, int screenH=900);
     ~MainWindow();
 };
 #endif // MAINWINDOW_H
