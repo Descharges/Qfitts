@@ -1,22 +1,13 @@
-#include "mainwindow.h"
-#include "maintest.h"
-
+#include "controller/fittscontroller.h"
 #include <QApplication>
-#include <QSizePolicy>
-#include <QLayout>
-#include <QLineEdit>
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QApplication a(argc, argv);
-    QRect scr = a.screens()[0]->geometry();
-    int height = scr.height();
-    int width = scr.width();
 
-    MainWindow w(nullptr,1500,1500);
+    FittsController *fittsController = new FittsController;
 
-    mainTest test(&w);
-
-    w.show();
     return a.exec();
 }
