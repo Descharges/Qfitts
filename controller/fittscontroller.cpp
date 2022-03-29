@@ -53,6 +53,7 @@ void FittsController::quit() {
     QApplication::quit();
 }
 
+//Go to graphs
 void FittsController::resultClicked() {
     this->fittsView->mainStack->setCurrentIndex(2);
     this->fittsView->graphStack->setCurrentIndex(0);
@@ -61,6 +62,13 @@ void FittsController::resultClicked() {
     this->fittsView->settingBtn->setVisible(true);
     this->fittsView->statBtn->setVisible(true);
 }
+
+
+void FittsController::cancel() {
+    this->fittsView->mainStack->setCurrentIndex(0);
+}
+
+
 void FittsController::aValueChanged(int value) {
     float valuef = value;
     valuef /= 10;
@@ -87,6 +95,7 @@ void FittsController::maxSizeChanged(int value) {
     this->fittsView->maxSizeLabel->setText(QString::number(value));
     this->fittsView->minSize->setMaximum(value-5);
 }
+
 void FittsController::toGraph1(){
     this->fittsView->graphStack->setCurrentIndex(0);
 }
@@ -99,6 +108,8 @@ void FittsController::toSettings(){
 void FittsController::toStats(){
     this->fittsView->mainStack->setCurrentIndex(2);
 }
+
+
 
 void FittsController::cibleClicked(int x, int y) {
     if(this->fittsModel->cercleCenter.isEmpty()) {

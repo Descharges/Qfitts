@@ -39,6 +39,7 @@ private:
     QPushButton *startBtn;
     QPushButton *resultBtn;
     QPushButton *resultLeaveBtn;
+    QPushButton *backBtn;
 
     QSlider *aValue;
     QSlider *bValue;
