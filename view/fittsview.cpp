@@ -54,19 +54,29 @@ FittsView::~FittsView() {}
 void FittsView::initWindows() {
 
     //window
-    this->setStyleSheet("background-color: #AFAFAF;");
+    this->setStyleSheet("background-color: lightblue;");
 
     QLabel *label;
 
 
-    titleBtnLayout = new QHBoxLayout;
+    QVBoxLayout *titleBtnLayout = new QVBoxLayout;
 
 
-    settingBtn = new QPushButton("Parametres");
+    settingBtn = new QPushButton("");
+    settingBtn->setFixedSize(50,50);
+    settingBtn->setStyleSheet("color: white; background-color: darkslateblue; border-radius: 25px");
+    settingBtn->setIcon(QIcon("/home/paulc/Projets/Qfitts/media/set.png"));
+    settingBtn->setIconSize(QSize(30, 30));
     titleBtnLayout->addWidget(settingBtn);
 
-    statBtn = new QPushButton("Statistiques");
+    statBtn = new QPushButton("");
+    statBtn->setFixedSize(50,50);
+    statBtn->setStyleSheet("color: white; background-color: darkslateblue; border-radius: 25px");
+    statBtn->setIcon(QIcon("/home/paulc/Projets/Qfitts/media/stat.png"));
+    statBtn->setIconSize(QSize(40, 40));
     titleBtnLayout->addWidget(statBtn);
+
+    titleBtnLayout->addStretch();
 
     QVBoxLayout *titles = new QVBoxLayout;
 
@@ -78,7 +88,7 @@ void FittsView::initWindows() {
     QWidget *mainWidget = new QWidget;
     this->setCentralWidget(mainWidget);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
+    QHBoxLayout *mainLayout = new QHBoxLayout(mainWidget);
 
     mainLayout->addLayout(titles);
 
