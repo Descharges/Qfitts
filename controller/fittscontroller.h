@@ -7,6 +7,7 @@
 class FittsView;
 class FittsModel;
 
+//Define the result of an interaction with a widget
 class FittsController : public QObject
 {
     Q_OBJECT
