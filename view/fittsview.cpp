@@ -3,6 +3,7 @@
 #include "fittscontroller.h"
 #include "fittsmodel.h"
 
+#include <iostream>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -61,18 +62,64 @@ void FittsView::initWindows() {
 
     QVBoxLayout *titleBtnLayout = new QVBoxLayout;
 
+    QString styleSheet = "\
+            QPushButton {\
+                color: white; background-color: #2596be; border-radius: 5px;\
+            }\
+            QPushButton#set {\
+                color: white; background-color: #2596be; border-radius: 25px;\
+            }\
+            QPushButton#stat {\
+                color: white; background-color: #2596be; border-radius: 25px;\
+            }\
+            QPushButton:hover {\
+                background-color: red;\
+            }\
+            QGroupBox {\
+                background-color: #2596be;\
+                color: white;\
+                font-size: 15px;\
+                font-weight: bold;\
+                border-radius: 10px;\
+                padding: 20px\
+            }\
+            QLabel {\
+                background-color: #2596be;\
+                color: white;\
+            }\
+            QSlider {\
+                background-color: #2596be;\
+                color: white;\
+            }\
+            QSlider::groove:horizontal {\
+                height: 10px;\
+                border-radius: 5px;\
+                background-color: white;\
+                margin: 0px;\
+            }\
+            QSlider::handle:horizontal {\
+                background-color: black;\
+                border-radius: 5px;\
+                height: 10px;\
+                width: 10px;\
+            }\
+            ";
+
 
     settingBtn = new QPushButton("");
     settingBtn->setFixedSize(50,50);
-    settingBtn->setStyleSheet("color: white; background-color: darkslateblue; border-radius: 25px");
-    settingBtn->setIcon(QIcon("/home/paulc/Projets/Qfitts/media/set.png"));
+    settingBtn->setObjectName("set");
+    settingBtn->setStyleSheet(styleSheet);
+    settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
+
     settingBtn->setIconSize(QSize(30, 30));
     titleBtnLayout->addWidget(settingBtn);
 
     statBtn = new QPushButton("");
     statBtn->setFixedSize(50,50);
-    statBtn->setStyleSheet("color: white; background-color: darkslateblue; border-radius: 25px");
-    statBtn->setIcon(QIcon("/home/paulc/Projets/Qfitts/media/stat.png"));
+    statBtn->setObjectName("stat");
+    statBtn->setStyleSheet(styleSheet);
+    statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     titleBtnLayout->addWidget(statBtn);
 
@@ -86,6 +133,7 @@ void FittsView::initWindows() {
 
 
     QWidget *mainWidget = new QWidget;
+    mainWidget->setStyleSheet(styleSheet);
     this->setCentralWidget(mainWidget);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(mainWidget);
@@ -103,10 +151,11 @@ void FittsView::initWindows() {
     QWidget *settingsWidget = new QWidget;
     mainStack->addWidget(settingsWidget);
 
+
     QVBoxLayout *settingsLayout = new QVBoxLayout(settingsWidget);
 
 
-    QGroupBox *rappelBox = new QGroupBox("Formule de la loi de Fitts :");
+    QGroupBox *rappelBox = new QGroupBox(" Formule de la loi de Fitts :");
     settingsLayout->addWidget(rappelBox);
     QHBoxLayout *rappelLayout = new QHBoxLayout(rappelBox);
 
@@ -120,7 +169,7 @@ void FittsView::initWindows() {
     QGridLayout *rappelRightLayout = new QGridLayout();
     rappelLayout->addLayout(rappelRightLayout,1);
 
-    QGroupBox *configBox = new QGroupBox("Configuration du test :");
+    QGroupBox *configBox = new QGroupBox(" Configuration du test :");
     settingsLayout->addWidget(configBox);
     QGridLayout *configLayout = new QGridLayout(configBox);
 
