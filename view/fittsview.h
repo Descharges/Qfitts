@@ -19,6 +19,7 @@ QT_CHARTS_USE_NAMESPACE
 class FittsModel;
 class FittsController;
 
+//Initialise the window, put the elements in place and define their properties
 class FittsView : public QMainWindow
 {
     Q_OBJECT
@@ -38,6 +39,7 @@ private:
     QPushButton *startBtn;
     QPushButton *resultBtn;
     QPushButton *resultLeaveBtn;
+    QPushButton *backBtn;
 
     QSlider *aValue;
     QSlider *bValue;

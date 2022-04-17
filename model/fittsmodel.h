@@ -7,6 +7,7 @@
 class FittsView;
 class FittsController;
 
+//Save the variable important for the calculation of the Fitt formula and display the result on graphs
 class FittsModel
 {
 public:

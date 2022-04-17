@@ -33,6 +33,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
     connect(resultBtn,SIGNAL(clicked()),fittsController,SLOT(resultClicked()));
 
+     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
+
     connect(resultLeaveBtn,SIGNAL(clicked()),fittsController,SLOT(quit()));
 
     connect(graphicView, SIGNAL(mouseClicked(int,int)), fittsController, SLOT(cibleClicked(int,int)));
@@ -291,6 +293,12 @@ void FittsView::initWindows() {
     btnLayout->addWidget(resultBtn);
     resultBtn->setEnabled(false);
 
+    backBtn = new QPushButton("Annuler");
+    btnLayout->addWidget(backBtn);
+    backBtn->setMinimumHeight(30);
+    backBtn->setMinimumWidth(300);
+    backBtn->setMaximumWidth(300);
+    backBtn->setCursor(Qt::PointingHandCursor);
 
 
     //graphic
