@@ -55,8 +55,6 @@ void FittsController::quit() {
 }
 
 
-
-
 void FittsController::cancel() {
     this->fittsView->mainStack->setCurrentIndex(0);
 }

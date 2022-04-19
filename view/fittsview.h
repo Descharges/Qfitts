@@ -69,6 +69,8 @@ private:
 
     QPushButton *settingBtn;
     QPushButton *statBtn;
+    QPushButton *simulationBtn;
+    QPushButton *quitBtn;
     QPushButton *graph1;
     QPushButton *graph2;
 

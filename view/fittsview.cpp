@@ -4,6 +4,8 @@
 #include "fittsmodel.h"
 
 #include <iostream>
+#include <QTextStream>
+#include <QDebug>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -41,6 +43,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
     connect(settingBtn, SIGNAL(clicked()), fittsController, SLOT(toSettings()));
     connect(statBtn, SIGNAL(clicked()), fittsController, SLOT(toStats()));
+    connect(simulationBtn, SIGNAL(clicked()), fittsController, SLOT(startSimulation()));
+    connect(quitBtn, SIGNAL(clicked()), fittsController, SLOT(quit()));
 
     // SpinBox values update
     connect(aValue,SIGNAL(valueChanged(int)),fittsController,SLOT(aValueChanged(int)));
@@ -112,6 +116,10 @@ void FittsView::initWindows() {
     settingBtn->setStyleSheet(styleSheet);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
 
+    QTextStream out(stdout);
+    out << QDir::currentPath()  << endl;
+
+
     settingBtn->setIconSize(QSize(30, 30));
     titleBtnLayout->addWidget(settingBtn);
 
@@ -122,6 +130,24 @@ void FittsView::initWindows() {
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     titleBtnLayout->addWidget(statBtn);
+
+
+    simulationBtn = new QPushButton("");
+    simulationBtn->setFixedSize(50,50);
+    simulationBtn->setObjectName("stat");
+    simulationBtn->setStyleSheet(styleSheet);
+    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
+    simulationBtn->setIconSize(QSize(40, 40));
+    titleBtnLayout->addWidget(simulationBtn);
+
+    quitBtn = new QPushButton("");
+    quitBtn->setFixedSize(50,50);
+    quitBtn->setObjectName("stat");
+    quitBtn->setStyleSheet(styleSheet);
+    quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
+    quitBtn->setIconSize(QSize(40, 40));
+    titleBtnLayout->addWidget(quitBtn);
+
 
     titleBtnLayout->addStretch();
 
@@ -163,7 +189,7 @@ void FittsView::initWindows() {
     rappelLayout->addLayout(rappelLeftLayout,2);
 
     label = new QLabel;
-    label->setPixmap(QPixmap("C:/Users/Martin/Desktop/HM40 TP/support_TP_Fitts/fittsTP/image/fitts.png").scaled(500,400,Qt::KeepAspectRatio));
+    label->setPixmap(QPixmap(QDir::currentPath() + "/fitts.png").scaled(500,400,Qt::KeepAspectRatio));
     rappelLeftLayout->addWidget(label);
 
     QGridLayout *rappelRightLayout = new QGridLayout();
