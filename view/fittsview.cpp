@@ -31,8 +31,6 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
     // Btn clicked
     connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
 
-    connect(resultBtn,SIGNAL(clicked()),fittsController,SLOT(resultClicked()));
-
      connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
 
     connect(resultLeaveBtn,SIGNAL(clicked()),fittsController,SLOT(quit()));
@@ -290,8 +288,6 @@ void FittsView::initWindows() {
     testLayout->addLayout(btnLayout);
 
     resultBtn = new QPushButton("Résultats");
-    btnLayout->addWidget(resultBtn);
-    resultBtn->setEnabled(false);
 
     backBtn = new QPushButton("Annuler");
     btnLayout->addWidget(backBtn);

@@ -176,8 +176,14 @@ void FittsController::nextCible() {
 
 
 void FittsController::finish() {
-    this->fittsView->graphicView->setEnabled(false);
-    this->fittsView->resultBtn->setEnabled(true);
+
+
+    this->fittsView->mainStack->setCurrentIndex(2);
+    this->fittsView->graphStack->setCurrentIndex(0);
+    this->fittsModel->calculateResult();
+
+    this->fittsView->settingBtn->setVisible(true);
+    this->fittsView->statBtn->setVisible(true);
 }
 
 void FittsController::initGame() {
