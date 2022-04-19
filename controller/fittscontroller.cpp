@@ -29,7 +29,9 @@ FittsController::FittsController() {
 }
 
 void FittsController::start() {
+    this->startSimulation();
     this->fittsView->show();
+
 }
 
 void FittsController::startSimulation() {
@@ -43,8 +45,7 @@ void FittsController::startSimulation() {
     this->fittsModel->clickPoints.clear();
     this->fittsModel->times.clear();
 
-    this->fittsView->settingBtn->setVisible(false);
-    this->fittsView->statBtn->setVisible(false);
+
 
     this->initGame();
 }
@@ -53,21 +54,11 @@ void FittsController::quit() {
     QApplication::quit();
 }
 
-//Go to graphs
-void FittsController::resultClicked() {
-    this->fittsView->mainStack->setCurrentIndex(2);
-    this->fittsView->graphStack->setCurrentIndex(0);
-    this->fittsModel->calculateResult();
 
-    this->fittsView->settingBtn->setVisible(true);
-    this->fittsView->statBtn->setVisible(true);
-}
 
 
 void FittsController::cancel() {
     this->fittsView->mainStack->setCurrentIndex(0);
-    this->fittsView->settingBtn->setVisible(true);
-    this->fittsView->statBtn->setVisible(true);
 }
 
 
