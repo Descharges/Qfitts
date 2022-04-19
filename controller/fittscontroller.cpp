@@ -66,6 +66,8 @@ void FittsController::resultClicked() {
 
 void FittsController::cancel() {
     this->fittsView->mainStack->setCurrentIndex(0);
+    this->fittsView->settingBtn->setVisible(true);
+    this->fittsView->statBtn->setVisible(true);
 }
 
 
