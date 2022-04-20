@@ -37,8 +37,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
 
     connect(graphicView, SIGNAL(mouseClicked(int,int)), fittsController, SLOT(cibleClicked(int,int)));
-    connect(graph1, SIGNAL(clicked()), fittsController, SLOT(toGraph1()));
-    connect(graph2, SIGNAL(clicked()), fittsController, SLOT(toGraph2()));
+    connect(graph1Btn, SIGNAL(clicked()), fittsController, SLOT(toGraph1()));
+    connect(graph2Btn, SIGNAL(clicked()), fittsController, SLOT(toGraph2()));
 
     connect(settingBtn, SIGNAL(clicked()), fittsController, SLOT(toSettings()));
     connect(statBtn, SIGNAL(clicked()), fittsController, SLOT(toStats()));
@@ -109,12 +109,22 @@ void FittsView::initWindows() {
             ";
 
 
+    simulationBtn = new QPushButton("");
+    simulationBtn->setFixedSize(50,50);
+    simulationBtn->setObjectName("menu");
+    simulationBtn->setStyleSheet(styleSheet);
+    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
+    simulationBtn->setIconSize(QSize(40, 40));
+    simulationBtn->setCursor(Qt::PointingHandCursor);
+    titleBtnLayout->addWidget(simulationBtn);
+
     settingBtn = new QPushButton("");
     settingBtn->setFixedSize(50,50);
     settingBtn->setObjectName("menu");
     settingBtn->setStyleSheet(styleSheet);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
     settingBtn->setIconSize(QSize(30, 30));
+    settingBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(settingBtn);
 
     statBtn = new QPushButton("");
@@ -123,15 +133,8 @@ void FittsView::initWindows() {
     statBtn->setStyleSheet(styleSheet);
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
+    statBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(statBtn);
-
-    simulationBtn = new QPushButton("");
-    simulationBtn->setFixedSize(50,50);
-    simulationBtn->setObjectName("menu");
-    simulationBtn->setStyleSheet(styleSheet);
-    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
-    simulationBtn->setIconSize(QSize(40, 40));
-    titleBtnLayout->addWidget(simulationBtn);
 
     quitBtn = new QPushButton("");
     quitBtn->setFixedSize(50,50);
@@ -139,6 +142,7 @@ void FittsView::initWindows() {
     quitBtn->setStyleSheet(styleSheet);
     quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
     quitBtn->setIconSize(QSize(40, 40));
+    quitBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(quitBtn);
 
 
@@ -276,6 +280,10 @@ void FittsView::initWindows() {
     settingsLayout->addLayout(btnLayout);
 
     startBtn = new QPushButton("Démarrer la simulation");
+    startBtn->setMinimumHeight(30);
+    startBtn->setMinimumWidth(300);
+    startBtn->setMaximumWidth(300);
+    startBtn->setCursor(Qt::PointingHandCursor);
     btnLayout->addWidget(startBtn);
 
 
@@ -330,11 +338,15 @@ void FittsView::initWindows() {
     resultLayout->addLayout(graphStack);
 
 
-    graph1 = new QPushButton("T = f(D)");
-    statBtnLayout->addWidget(graph1);
+    graph1Btn = new QPushButton("Graphique T = f(D)");
+    graph1Btn->setCursor(Qt::PointingHandCursor);
+    graph1Btn->setMinimumHeight(30);
+    statBtnLayout->addWidget(graph1Btn);
 
-    graph2 = new QPushButton("T = log(2D/L)");
-    statBtnLayout->addWidget(graph2);
+    graph2Btn = new QPushButton("Graphique T = log(2D/L)");
+    graph2Btn->setCursor(Qt::PointingHandCursor);
+    graph2Btn->setMinimumHeight(30);
+    statBtnLayout->addWidget(graph2Btn);
 
     resultLayout->addLayout(statBtnLayout);
 
@@ -387,6 +399,10 @@ void FittsView::initWindows() {
     resultLayout->addLayout(btnLayout);
 
     startBtn2 = new QPushButton("Démarrer la simulation");
+    startBtn2->setMinimumHeight(30);
+    startBtn2->setMinimumWidth(300);
+    startBtn2->setMaximumWidth(300);
+    startBtn2->setCursor(Qt::PointingHandCursor);
     btnLayout->addWidget(startBtn2);
 
 }

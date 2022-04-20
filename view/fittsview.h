@@ -71,8 +71,8 @@ private:
     QPushButton *statBtn;
     QPushButton *simulationBtn;
     QPushButton *quitBtn;
-    QPushButton *graph1;
-    QPushButton *graph2;
+    QPushButton *graph1Btn;
+    QPushButton *graph2Btn;
 
     QHBoxLayout *titleBtnLayout;
 
