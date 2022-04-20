@@ -69,11 +69,11 @@ void FittsView::initWindows() {
             QPushButton {\
                 color: white; background-color: #2596be; border-radius: 5px;\
             }\
-            QPushButton#set {\
+            QPushButton#menu {\
                 color: white; background-color: #2596be; border-radius: 25px;\
             }\
-            QPushButton#stat {\
-                color: white; background-color: #2596be; border-radius: 25px;\
+            QPushButton#menu:hover {\
+                background-color: red;\
             }\
             QPushButton:hover {\
                 background-color: red;\
@@ -111,29 +111,23 @@ void FittsView::initWindows() {
 
     settingBtn = new QPushButton("");
     settingBtn->setFixedSize(50,50);
-    settingBtn->setObjectName("set");
+    settingBtn->setObjectName("menu");
     settingBtn->setStyleSheet(styleSheet);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
-
-    QTextStream out(stdout);
-    out << QDir::currentPath()  << endl;
-
-
     settingBtn->setIconSize(QSize(30, 30));
     titleBtnLayout->addWidget(settingBtn);
 
     statBtn = new QPushButton("");
     statBtn->setFixedSize(50,50);
-    statBtn->setObjectName("stat");
+    statBtn->setObjectName("menu");
     statBtn->setStyleSheet(styleSheet);
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     titleBtnLayout->addWidget(statBtn);
 
-
     simulationBtn = new QPushButton("");
     simulationBtn->setFixedSize(50,50);
-    simulationBtn->setObjectName("stat");
+    simulationBtn->setObjectName("menu");
     simulationBtn->setStyleSheet(styleSheet);
     simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
     simulationBtn->setIconSize(QSize(40, 40));
@@ -141,7 +135,7 @@ void FittsView::initWindows() {
 
     quitBtn = new QPushButton("");
     quitBtn->setFixedSize(50,50);
-    quitBtn->setObjectName("stat");
+    quitBtn->setObjectName("menu");
     quitBtn->setStyleSheet(styleSheet);
     quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
     quitBtn->setIconSize(QSize(40, 40));
@@ -281,7 +275,7 @@ void FittsView::initWindows() {
     QHBoxLayout *btnLayout = new QHBoxLayout;
     settingsLayout->addLayout(btnLayout);
 
-    startBtn = new QPushButton("Démarrer");
+    startBtn = new QPushButton("Démarrer la simulation");
     btnLayout->addWidget(startBtn);
 
 
@@ -392,7 +386,8 @@ void FittsView::initWindows() {
     btnLayout = new QHBoxLayout;
     resultLayout->addLayout(btnLayout);
 
-    btnLayout->addWidget(startBtn);
+    startBtn2 = new QPushButton("Démarrer la simulation");
+    btnLayout->addWidget(startBtn2);
 
 }
 

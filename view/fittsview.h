@@ -37,8 +37,8 @@ private:
     FittsController *fittsController;
 
     QPushButton *startBtn;
+    QPushButton *startBtn2;
     QPushButton *resultBtn;
-    QPushButton *resultLeaveBtn;
     QPushButton *backBtn;
 
     QSlider *aValue;
