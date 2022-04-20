@@ -308,7 +308,9 @@ void FittsView::initWindows() {
     graphicView->setScene(scene);
     scene->setSceneRect(0,0,graphicView->width(),300);
 
-    label = new QLabel("Cliquez sur les cibles qui apparaissent en <font color='red'><strong>rouge</strong></font>");
+    label = new QLabel("<strong>Le test commencera après avoir appuyé sur la cible <font color='blue'><strong>bleu</strong></font></strong>.<br/>Cliquez sur les cibles qui apparaissent en <font color='red'><strong>rouge</strong></font>. ");
+    label->setStyleSheet("QLabel{font-size: 18pt;}");
+    label->setAlignment(Qt::AlignCenter);
     testLayout->addWidget(label);
 
     btnLayout = new QHBoxLayout;
@@ -408,7 +410,9 @@ void FittsView::initWindows() {
 }
 
 void FittsView::updateTestMsg() {
-    this->testLabel->setText("<strong>Le test commencera après avoir appuyé sur la cible <font color='blue'><strong>bleu</strong></font>.</strong> Nombre de cibles restantes : " + QString::number(this->fittsModel->cibleLeft));
+    this->testLabel->setText("Nombre de cibles restantes : " + QString::number(this->fittsModel->cibleLeft));
+    this->testLabel->setStyleSheet("QLabel{font-size: 18pt;}");
+    this->testLabel->setAlignment(Qt::AlignCenter);
 }
 
 
