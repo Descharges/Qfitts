@@ -52,6 +52,8 @@ private:
     QLabel *minSizeLabel;
     QLabel *maxSizeLabel;
 
+    QCheckBox *themeSelect;
+
     QStackedLayout *mainStack;
     QStackedLayout *graphStack;
 
@@ -81,6 +83,10 @@ private:
 
     QLabel *ratio = 0;
     QLabel *failedClicks = 0;
+
+    QString theme;
+private slots:
+    void setTheme(int theme);
 };
 
 #endif // MAINWINDOW_H

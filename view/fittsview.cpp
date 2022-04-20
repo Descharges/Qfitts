@@ -34,6 +34,9 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
     connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
     connect(startBtn2,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
 
+    connect(themeSelect, SIGNAL(stateChanged(int)), this, SLOT(setTheme(int)));
+
+
     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
 
 
@@ -59,61 +62,19 @@ FittsView::~FittsView() {}
 void FittsView::initWindows() {
 
     //window
-    this->setStyleSheet("background-color: lightblue;");
+    setTheme(0);
+    this->setStyleSheet(this->theme);
 
     QLabel *label;
 
 
     QVBoxLayout *titleBtnLayout = new QVBoxLayout;
 
-    QString styleSheet = "\
-            QPushButton {\
-                color: white; background-color: #2596be; border-radius: 5px;\
-            }\
-            QPushButton#menu {\
-                color: white; background-color: #2596be; border-radius: 25px;\
-            }\
-            QPushButton#menu:hover {\
-                background-color: red;\
-            }\
-            QPushButton:hover {\
-                background-color: red;\
-            }\
-            QGroupBox {\
-                background-color: #2596be;\
-                color: white;\
-                font-size: 15px;\
-                font-weight: bold;\
-                border-radius: 10px;\
-                padding: 20px\
-            }\
-            QLabel {\
-                background-color: #2596be;\
-                color: white;\
-            }\
-            QSlider {\
-                background-color: #2596be;\
-                color: white;\
-            }\
-            QSlider::groove:horizontal {\
-                height: 10px;\
-                border-radius: 5px;\
-                background-color: white;\
-                margin: 0px;\
-            }\
-            QSlider::handle:horizontal {\
-                background-color: black;\
-                border-radius: 5px;\
-                height: 10px;\
-                width: 10px;\
-            }\
-            ";
-
 
     simulationBtn = new QPushButton("");
     simulationBtn->setFixedSize(50,50);
     simulationBtn->setObjectName("menu");
-    simulationBtn->setStyleSheet(styleSheet);
+    simulationBtn->setStyleSheet(this->theme);
     simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
     simulationBtn->setIconSize(QSize(40, 40));
     simulationBtn->setCursor(Qt::PointingHandCursor);
@@ -122,7 +83,7 @@ void FittsView::initWindows() {
     settingBtn = new QPushButton("");
     settingBtn->setFixedSize(50,50);
     settingBtn->setObjectName("menu");
-    settingBtn->setStyleSheet(styleSheet);
+    settingBtn->setStyleSheet(this->theme);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
     settingBtn->setIconSize(QSize(30, 30));
     settingBtn->setCursor(Qt::PointingHandCursor);
@@ -131,7 +92,7 @@ void FittsView::initWindows() {
     statBtn = new QPushButton("");
     statBtn->setFixedSize(50,50);
     statBtn->setObjectName("menu");
-    statBtn->setStyleSheet(styleSheet);
+    statBtn->setStyleSheet(this->theme);
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     statBtn->setCursor(Qt::PointingHandCursor);
@@ -140,7 +101,7 @@ void FittsView::initWindows() {
     quitBtn = new QPushButton("");
     quitBtn->setFixedSize(50,50);
     quitBtn->setObjectName("menu");
-    quitBtn->setStyleSheet(styleSheet);
+    quitBtn->setStyleSheet(this->theme);
     quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
     quitBtn->setIconSize(QSize(40, 40));
     quitBtn->setCursor(Qt::PointingHandCursor);
@@ -157,7 +118,7 @@ void FittsView::initWindows() {
 
 
     QWidget *mainWidget = new QWidget;
-    mainWidget->setStyleSheet(styleSheet);
+    //mainWidget->setStyleSheet(this->theme);
     this->setCentralWidget(mainWidget);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(mainWidget);
@@ -179,19 +140,18 @@ void FittsView::initWindows() {
     QVBoxLayout *settingsLayout = new QVBoxLayout(settingsWidget);
 
 
-    QGroupBox *rappelBox = new QGroupBox(" Formule de la loi de Fitts :");
+    QGroupBox *rappelBox = new QGroupBox(" Paramètre de l'application :");
     settingsLayout->addWidget(rappelBox);
     QHBoxLayout *rappelLayout = new QHBoxLayout(rappelBox);
 
-    QVBoxLayout *rappelLeftLayout = new QVBoxLayout();
-    rappelLayout->addLayout(rappelLeftLayout,2);
+    this->themeSelect = new QCheckBox;
+    rappelLayout->addWidget(new QLabel("Thème sombre:"));
+    rappelLayout->addWidget(this->themeSelect);
+    rappelLayout->addStretch();
 
     label = new QLabel;
     label->setPixmap(QPixmap(QDir::currentPath() + "/fitts.png").scaled(500,400,Qt::KeepAspectRatio));
-    rappelLeftLayout->addWidget(label);
 
-    QGridLayout *rappelRightLayout = new QGridLayout();
-    rappelLayout->addLayout(rappelRightLayout,1);
 
     QGroupBox *configBox = new QGroupBox(" Configuration du test :");
     settingsLayout->addWidget(configBox);
@@ -426,5 +386,103 @@ void FittsView::displayResults() {
     itc95->setText(QString::number(fittsModel->itc95));
     failedClicks->setText(QString::number(fittsModel->failedClicks));
     ratio->setText(QString::number(fittsModel->ratio));
+}
+
+void FittsView::setTheme(int theme){
+    if(theme==0){//White mode
+        this->theme ="\
+                QMainWindow {\
+                    background-color: lightblue;\
+                }\
+                QPushButton {\
+                    color: white; background-color: #2596be; border-radius: 5px;\
+                }\
+                QPushButton#menu {\
+                    color: white; background-color: #2596be; border-radius: 25px;\
+                }\
+                QPushButton:hover {\
+                    background-color: red;\
+                }\
+                QPushButton#menu:hover {\
+                    background-color: red;\
+                }\
+                QGroupBox {\
+                    background-color: #2596be;\
+                    color: white;\
+                    font-size: 15px;\
+                    font-weight: bold;\
+                    border-radius: 10px;\
+                    padding: 20px\
+                }\
+                QLabel {\
+                    background-color: #2596be;\
+                    color: white;\
+                }\
+                QSlider {\
+                    background-color: #2596be;\
+                    color: white;\
+                }\
+                QSlider::groove:horizontal {\
+                    height: 10px;\
+                    border-radius: 5px;\
+                    background-color: white;\
+                    margin: 0px;\
+                }\
+                QSlider::handle:horizontal {\
+                    background-color: black;\
+                    border-radius: 5px;\
+                    height: 10px;\
+                    width: 10px;\
+                }\
+                ";
+    }else{//Dark mode
+        this->theme ="\
+                QMainWindow {\
+                    background-color: black;\
+                }\
+                QPushButton {\
+                    color: white; background-color: #2596be; border-radius: 5px;\
+                }\
+                QPushButton#menu {\
+                    color: white; background-color: #2596be; border-radius: 25px;\
+                }\
+                QPushButton:hover {\
+                    background-color: red;\
+                }\
+                QPushButton#menu:hover {\
+                    background-color: red;\
+                }\
+                QGroupBox {\
+                    background-color: #2596be;\
+                    color: white;\
+                    font-size: 15px;\
+                    font-weight: bold;\
+                    border-radius: 10px;\
+                    padding: 20px\
+                }\
+                QLabel {\
+                    background-color: #2596be;\
+                    color: white;\
+                }\
+                QSlider {\
+                    background-color: #2596be;\
+                    color: white;\
+                }\
+                QSlider::groove:horizontal {\
+                    height: 10px;\
+                    border-radius: 5px;\
+                    background-color: white;\
+                    margin: 0px;\
+                }\
+                QSlider::handle:horizontal {\
+                    background-color: black;\
+                    border-radius: 5px;\
+                    height: 10px;\
+                    width: 10px;\
+                }\
+                ";
+
+    }
+    this->setStyleSheet(this->theme);
 }
 
