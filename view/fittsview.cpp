@@ -33,9 +33,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
     // Btn clicked
     connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
 
-     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
+    connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
 
-    connect(resultLeaveBtn,SIGNAL(clicked()),fittsController,SLOT(quit()));
 
     connect(graphicView, SIGNAL(mouseClicked(int,int)), fittsController, SLOT(cibleClicked(int,int)));
     connect(graph1, SIGNAL(clicked()), fittsController, SLOT(toGraph1()));
@@ -346,9 +345,11 @@ void FittsView::initWindows() {
     resultLayout->addLayout(statBtnLayout);
 
     plot = new QChartView;
+    plot->setRubberBand(QChartView::HorizontalRubberBand);
     graphStack->addWidget(plot);
 
     plot2 = new QChartView;
+    plot2->setRubberBand(QChartView::HorizontalRubberBand);
     graphStack->addWidget(plot2);
 
     QGroupBox *resultBox =  new QGroupBox("Statistiques");
@@ -385,15 +386,13 @@ void FittsView::initWindows() {
     ratio = new QLabel;
     resultBoxLayout->addWidget(ratio,1,5);
 
-
     resultBoxLayout->setColumnStretch(1,10);
     resultBoxLayout->setColumnStretch(3,10);
 
     btnLayout = new QHBoxLayout;
     resultLayout->addLayout(btnLayout);
 
-    resultLeaveBtn = new QPushButton("Quitter");
-    btnLayout->addWidget(resultLeaveBtn);
+    btnLayout->addWidget(startBtn);
 
 }
 
