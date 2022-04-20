@@ -353,10 +353,12 @@ void FittsView::initWindows() {
     resultLayout->addLayout(statBtnLayout);
 
     plot = new QChartView;
+    plot->setMinimumHeight(300);
     plot->setRubberBand(QChartView::HorizontalRubberBand);
     graphStack->addWidget(plot);
 
     plot2 = new QChartView;
+     plot->setMinimumHeight(300);
     plot2->setRubberBand(QChartView::HorizontalRubberBand);
     graphStack->addWidget(plot2);
 

@@ -39,7 +39,7 @@ void FittsModel::calculateResult()
         fittsValues.append(Fitts);
         fittsSeries->append(i,Fitts);
 
-        axis->append("<br />D : " + QString::number(D),i);
+        axis->append("<br />D" + QString::number(i) + " : " + QString::number(round(D)),i);
     }
     axis->setLabelsPosition(QCategoryAxis::AxisLabelsPositionOnValue);
     axis->setLabelsAngle(80);
