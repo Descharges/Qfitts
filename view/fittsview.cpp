@@ -32,6 +32,7 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
     // Btn clicked
     connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
+    connect(startBtn2,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
 
     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
 
