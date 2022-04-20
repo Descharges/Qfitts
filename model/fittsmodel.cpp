@@ -15,7 +15,7 @@ void FittsModel::calculateResult()
     this->fittsView->plot->setChart(chart);
     this->fittsView->plot->setRenderHint(QPainter::Antialiasing);
 
-    chart->setTitle("Résultats loi Fitts (temps/distance");
+    chart->setTitle("Résultats loi Fitts (temps/distance en px)");
     chart->setAnimationOptions(QChart::AllAnimations);
     chart->createDefaultAxes();
     chart->legend()->setVisible(true);
@@ -49,6 +49,8 @@ void FittsModel::calculateResult()
 
     chart->setAxisX(axis,expSeries);
     chart->setAxisX(axis,fittsSeries);
+
+
 
     QValueAxis *axisY = new QValueAxis;
     axisY->setTitleText("temps (en ms)");
@@ -118,6 +120,8 @@ void FittsModel::calculateResult()
     QValueAxis *axisY2 = new QValueAxis;
     axisY2->setTitleText("temps (en ms)");
     chart2->setAxisY(axisY2,expSeries2);
+
+
 
     // Calcul des valeurs
     // Moyennes

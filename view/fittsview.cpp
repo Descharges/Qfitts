@@ -4,6 +4,8 @@
 #include "fittsmodel.h"
 
 #include <iostream>
+#include <QTextStream>
+#include <QDebug>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -30,12 +32,10 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
     // Btn clicked
     connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
-
     connect(themeSelect, SIGNAL(stateChanged(int)), this, SLOT(setTheme(int)));
 
     connect(resultBtn,SIGNAL(clicked()),fittsController,SLOT(resultClicked()));
-
-     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
+    connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
 
     connect(resultLeaveBtn,SIGNAL(clicked()),fittsController,SLOT(quit()));
 
@@ -45,6 +45,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
     connect(settingBtn, SIGNAL(clicked()), fittsController, SLOT(toSettings()));
     connect(statBtn, SIGNAL(clicked()), fittsController, SLOT(toStats()));
+    connect(simulationBtn, SIGNAL(clicked()), fittsController, SLOT(startSimulation()));
+    connect(quitBtn, SIGNAL(clicked()), fittsController, SLOT(quit()));
 
     // SpinBox values update
     connect(aValue,SIGNAL(valueChanged(int)),fittsController,SLOT(aValueChanged(int)));
@@ -72,6 +74,10 @@ void FittsView::initWindows() {
     //settingBtn->setStyleSheet(this->theme);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
 
+    QTextStream out(stdout);
+    out << QDir::currentPath()  << endl;
+
+
     settingBtn->setIconSize(QSize(30, 30));
     titleBtnLayout->addWidget(settingBtn);
 
@@ -82,6 +88,24 @@ void FittsView::initWindows() {
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     titleBtnLayout->addWidget(statBtn);
+
+
+    simulationBtn = new QPushButton("");
+    simulationBtn->setFixedSize(50,50);
+    simulationBtn->setObjectName("stat");
+    simulationBtn->setStyleSheet(styleSheet);
+    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
+    simulationBtn->setIconSize(QSize(40, 40));
+    titleBtnLayout->addWidget(simulationBtn);
+
+    quitBtn = new QPushButton("");
+    quitBtn->setFixedSize(50,50);
+    quitBtn->setObjectName("stat");
+    quitBtn->setStyleSheet(styleSheet);
+    quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
+    quitBtn->setIconSize(QSize(40, 40));
+    titleBtnLayout->addWidget(quitBtn);
+
 
     titleBtnLayout->addStretch();
 
@@ -123,6 +147,9 @@ void FittsView::initWindows() {
     rappelLayout->addWidget(new QLabel("Thème sombre:"));
     rappelLayout->addWidget(this->themeSelect);
     rappelLayout->addStretch();
+
+    label = new QLabel;
+    label->setPixmap(QPixmap(QDir::currentPath() + "/fitts.png").scaled(500,400,Qt::KeepAspectRatio));
 
 
     QGroupBox *configBox = new QGroupBox(" Configuration du test :");
@@ -244,8 +271,6 @@ void FittsView::initWindows() {
     testLayout->addLayout(btnLayout);
 
     resultBtn = new QPushButton("Résultats");
-    btnLayout->addWidget(resultBtn);
-    resultBtn->setEnabled(false);
 
     backBtn = new QPushButton("Annuler");
     btnLayout->addWidget(backBtn);
