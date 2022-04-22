@@ -1,5 +1,9 @@
 #include "fittsmodel.h"
 #include "fittsview.h"
+#include <iostream>
+#include <QDomDocument>
+#include <QTextStream>
+#include <QDebug>
 
 
 FittsModel::FittsModel(FittsController *fittsController) {
@@ -164,4 +168,164 @@ void FittsModel::calculateResult()
     ratio = succes / total;
 
     this->fittsView->displayResults();
+}
+
+void FittsModel::exportXML(){
+    QString fileName = QFileDialog::getSaveFileName(NULL, "Export Test","export.xml","*.xml");
+
+    QFile expFile(fileName);
+
+    if(expFile.open(QFile::WriteOnly | QFile::Text)){
+
+        QTextStream xmlContent(&expFile);
+
+        QDomDocument doc;
+
+        QDomElement root = doc.createElement("export");
+
+        doc.appendChild(root);
+
+        QDomElement buffer = doc.createElement("occurences");
+        buffer.setAttribute("n",this->nbCible);
+        root.appendChild(buffer);
+
+        buffer = doc.createElement("missed");
+        buffer.setAttribute("n",this->failedClicks);
+        root.appendChild(buffer);
+
+        buffer = doc.createElement("clicks");
+        buffer.setAttribute("n",this->clicks);
+        root.appendChild(buffer);
+
+        QDomElement buffer2;
+
+        buffer = doc.createElement("clickpoints");
+        for(int i=0; i<this->nbCible; i++){
+            buffer2 = doc.createElement("point");
+            buffer2.setAttribute("x",this->clickPoints[i].x());
+            buffer2.setAttribute("y",this->clickPoints[i].y());
+            buffer.appendChild(buffer2);
+        }
+        root.appendChild(buffer);
+
+        buffer = doc.createElement("circlecenter");
+        for(int i=0; i<this->nbCible; i++){
+            buffer2 = doc.createElement("point");
+            buffer2.setAttribute("x",this->cercleCenter[i].x());
+            buffer2.setAttribute("y",this->cercleCenter[i].y());
+            buffer.appendChild(buffer2);
+        }
+        root.appendChild(buffer);
+
+        buffer = doc.createElement("circlesize");
+        for(int i=0; i<this->nbCible; i++){
+            buffer2 = doc.createElement("size");
+            buffer2.setAttribute("x",this->cercleSize[i]);
+            buffer.appendChild(buffer2);
+        }
+        root.appendChild(buffer);
+
+        buffer = doc.createElement("times");
+        for(int i=0; i<this->nbCible; i++){
+            buffer2 = doc.createElement("time");
+            buffer2.setAttribute("x",this->times[i]);
+            buffer.appendChild(buffer2);
+        }
+        root.appendChild(buffer);
+
+
+
+
+        xmlContent << doc.toString();
+
+
+
+        QMessageBox::information(NULL,"QFitts","File exported succesfully");
+    }else{
+         QMessageBox::information(NULL,"QFitts","Exportation failed :(");
+    }
+
+}
+
+void FittsModel::importXML(){
+
+    QString fileName = QFileDialog::getOpenFileName(NULL, "Importer un test","","*.xml");
+
+    QFile impFile(fileName);
+
+    if (impFile.open(QIODevice::ReadOnly )){
+
+        qDebug() << "starting importation...";
+
+        this->fittsView->graphicView->setEnabled(true);
+        this->cercleSize.clear();
+        this->cercleCenter.clear();
+        this->clickPoints.clear();
+        this->times.clear();
+
+
+        QDomDocument doc;
+        doc.setContent(&impFile);
+
+        QDomElement root = doc.documentElement();
+
+        QDomElement node = root.elementsByTagName("occurences").item(0).toElement();
+        this->nbCible = node.attribute("n","0").toInt();
+        qDebug() << this->nbCible << Qt::endl;
+
+        node = root.elementsByTagName("missed").item(0).toElement();
+        this->failedClicks = node.attribute("n","0").toInt();
+        qDebug() << this->failedClicks<< "\n";
+
+        node = root.elementsByTagName("clicks").item(0).toElement();
+        this->clicks = node.attribute("n","0").toInt();
+        qDebug() << this->clicks<< "\n";
+
+        node = root.elementsByTagName("clickpoints").item(0).toElement();
+        QDomElement buff = node.firstChildElement();
+
+        for(int i=0; i<this->nbCible;i++){
+            int x = buff.attribute("x","0").toInt();
+            int y = buff.attribute("y","0").toInt();
+            this->clickPoints.append(QPoint(x,y));
+            qDebug() << this->clickPoints[i].x()<< "\n";
+            qDebug() << this->clickPoints[i].y()<< "\n";
+            buff = buff.nextSibling().toElement();
+        }
+
+        node = root.elementsByTagName("circlecenter").item(0).toElement();
+        buff = node.firstChildElement();
+
+        for(int i=0; i<this->nbCible;i++){
+            int x = buff.attribute("x","0").toInt();
+            int y = buff.attribute("y","0").toInt();
+            this->cercleCenter.append(QPoint(x,y));
+            qDebug() << this->cercleCenter[i].x()<< "\n";
+            qDebug() << this->cercleCenter[i].y()<< "\n";
+            buff = buff.nextSibling().toElement();
+        }
+
+        node = root.elementsByTagName("circlesize").item(0).toElement();
+        buff = node.firstChildElement();
+
+        for(int i=0; i<this->nbCible;i++){
+            this->cercleSize.append(buff.attribute("x","0").toInt());
+            qDebug() << this->cercleSize[i]<< "\n";
+            buff = buff.nextSibling().toElement();
+        }
+
+        node = root.elementsByTagName("times").item(0).toElement();
+        buff = node.firstChildElement();
+
+        for(int i=0; i<this->nbCible;i++){
+            this->times.append(buff.attribute("x","0").toInt());
+            qDebug() << this->times[i]<< "\n";
+            buff = buff.nextSibling().toElement();
+        }
+
+        this->calculateResult();
+
+    }else{
+       QMessageBox::information(NULL,"QFitts","Impossible d'ouvrir le fichier :(");
+    }
 }

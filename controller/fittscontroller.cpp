@@ -162,7 +162,7 @@ void FittsController::nextCible() {
     this->fittsModel->cercleSize.append(size);
 
     // On place le cercle
-    scene->addEllipse(posX - (size / 2), posY - (size / 2), size, size, QPen(QColor("red")),QBrush(QColor("red")));
+    scene->addEllipse(posX - (size / 2), posY - (size / 2), size, size, QPen(QColor("#E66C5E")),QBrush(QColor("#E66C5E")));
 }
 
 
@@ -191,5 +191,13 @@ void FittsController::initGame() {
     qreal posY = scene->height() / 2;
     int size = 100;
 
-    scene->addEllipse(posX - (size / 2), posY - (size / 2), size, size, QPen(QColor("blue")),QBrush(QColor("blue")));
+    scene->addEllipse(posX - (size / 2), posY - (size / 2), size, size, QPen(QColor("#2aa7d5")),QBrush(QColor("#2aa7d5")));
+}
+
+
+void FittsController::importXml(){
+    this->fittsModel->importXML();
+}
+void FittsController::exportXml(){
+    this->fittsModel->exportXML();
 }

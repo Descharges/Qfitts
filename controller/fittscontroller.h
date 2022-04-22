@@ -32,7 +32,7 @@ private slots:
     //Action when a button is clicked
     void quit();
     void startSimulation();
-    void resultClicked();//Go to result
+    //void resultClicked();//Go to result
     void cancel();//Cancel simulation
 
     //== Buttons to navigate the inferface
@@ -50,6 +50,9 @@ private slots:
 
 
     void cibleClicked(int x, int y);
+
+    void importXml();
+    void exportXml();
 
     friend FittsView;
 };

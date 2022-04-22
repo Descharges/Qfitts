@@ -13,6 +13,9 @@ class FittsModel
 public:
     FittsModel(FittsController *fittsController);
     void calculateResult();
+    void exportXML();
+    void importXML();
+
 
 private:
     FittsView *fittsView;

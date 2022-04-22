@@ -13,6 +13,7 @@
 #include <QLineSeries>
 #include <QtCharts>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -76,6 +77,9 @@ private:
     QPushButton *graph1Btn;
     QPushButton *graph2Btn;
 
+    QPushButton *importXmlBtn;
+    QPushButton *exportXmlBtn;
+
     QHBoxLayout *titleBtnLayout;
 
     friend FittsController;
@@ -85,6 +89,9 @@ private:
     QLabel *failedClicks = 0;
 
     QString theme;
+
+    QSettings *set;
+
 private slots:
     void setTheme(int theme);
 };

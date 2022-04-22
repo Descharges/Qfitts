@@ -4,6 +4,7 @@
 #include "fittsmodel.h"
 
 #include <iostream>
+#include <string>
 #include <QTextStream>
 #include <QDebug>
 #include <QWidget>
@@ -38,6 +39,8 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
 
 
     connect(backBtn,SIGNAL(clicked()),fittsController,SLOT(cancel()));
+    connect(importXmlBtn,SIGNAL(clicked()),fittsController, SLOT(importXml()));
+    connect(exportXmlBtn,SIGNAL(clicked()),fittsController, SLOT(exportXml()));
 
 
     connect(graphicView, SIGNAL(mouseClicked(int,int)), fittsController, SLOT(cibleClicked(int,int)));
@@ -61,9 +64,16 @@ FittsView::~FittsView() {}
 
 void FittsView::initWindows() {
 
+
+
     //window
-    setTheme(0);
-    this->setStyleSheet(this->theme);
+
+    this->set = new QSettings(QSettings::IniFormat, QSettings::UserScope,"utbm","Qfitts");
+    if( this->set->value("set/darkmode") == "1"){
+        setTheme(1);
+    }else{
+        setTheme(0);
+    }
 
     QLabel *label;
 
@@ -74,8 +84,8 @@ void FittsView::initWindows() {
     simulationBtn = new QPushButton("");
     simulationBtn->setFixedSize(50,50);
     simulationBtn->setObjectName("menu");
-    simulationBtn->setStyleSheet(this->theme);
-    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/play-simulation.png"));
+    //simulationBtn->setStyleSheet(this->theme);
+    simulationBtn->setIcon(QIcon(QDir::currentPath() + "/curs.png"));
     simulationBtn->setIconSize(QSize(40, 40));
     simulationBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(simulationBtn);
@@ -83,7 +93,7 @@ void FittsView::initWindows() {
     settingBtn = new QPushButton("");
     settingBtn->setFixedSize(50,50);
     settingBtn->setObjectName("menu");
-    settingBtn->setStyleSheet(this->theme);
+    //settingBtn->setStyleSheet(this->theme);
     settingBtn->setIcon(QIcon(QDir::currentPath() + "/set.png"));
     settingBtn->setIconSize(QSize(30, 30));
     settingBtn->setCursor(Qt::PointingHandCursor);
@@ -92,23 +102,25 @@ void FittsView::initWindows() {
     statBtn = new QPushButton("");
     statBtn->setFixedSize(50,50);
     statBtn->setObjectName("menu");
-    statBtn->setStyleSheet(this->theme);
+    //statBtn->setStyleSheet(this->theme);
     statBtn->setIcon(QIcon(QDir::currentPath() + "/stat.png"));
     statBtn->setIconSize(QSize(40, 40));
     statBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(statBtn);
 
+    titleBtnLayout->addStretch();
+
     quitBtn = new QPushButton("");
     quitBtn->setFixedSize(50,50);
     quitBtn->setObjectName("menu");
-    quitBtn->setStyleSheet(this->theme);
-    quitBtn->setIcon(QIcon(QDir::currentPath() + "/logout.png"));
+    //quitBtn->setStyleSheet(this->theme);
+    quitBtn->setIcon(QIcon(QDir::currentPath() + "/quit.png"));
     quitBtn->setIconSize(QSize(40, 40));
     quitBtn->setCursor(Qt::PointingHandCursor);
     titleBtnLayout->addWidget(quitBtn);
 
 
-    titleBtnLayout->addStretch();
+
 
     QVBoxLayout *titles = new QVBoxLayout;
 
@@ -147,6 +159,11 @@ void FittsView::initWindows() {
     this->themeSelect = new QCheckBox;
     rappelLayout->addWidget(new QLabel("Thème sombre:"));
     rappelLayout->addWidget(this->themeSelect);
+    if( this->set->value("set/darkmode") == "1"){
+        this->themeSelect->setChecked(true);
+    }else{
+        this->themeSelect->setChecked(false);
+    }
     rappelLayout->addStretch();
 
     label = new QLabel;
@@ -240,14 +257,6 @@ void FittsView::initWindows() {
     QHBoxLayout *btnLayout = new QHBoxLayout;
     settingsLayout->addLayout(btnLayout);
 
-    startBtn = new QPushButton("Démarrer la simulation");
-    startBtn->setMinimumHeight(30);
-    startBtn->setMinimumWidth(300);
-    startBtn->setMaximumWidth(300);
-    startBtn->setCursor(Qt::PointingHandCursor);
-    btnLayout->addWidget(startBtn);
-
-
 
     // Test part
 
@@ -280,12 +289,6 @@ void FittsView::initWindows() {
     resultBtn = new QPushButton("Résultats");
 
     backBtn = new QPushButton("Annuler");
-    btnLayout->addWidget(backBtn);
-    backBtn->setMinimumHeight(30);
-    backBtn->setMinimumWidth(300);
-    backBtn->setMaximumWidth(300);
-    backBtn->setCursor(Qt::PointingHandCursor);
-
 
     //graphic
 
@@ -293,9 +296,15 @@ void FittsView::initWindows() {
 
     mainStack->addWidget(resultWidget);
 
-    QVBoxLayout *resultLayout = new QVBoxLayout(resultWidget);
+    QHBoxLayout *masterResLay = new QHBoxLayout(resultWidget);
+
+    QVBoxLayout *resultLayout = new QVBoxLayout;
 
     QHBoxLayout *statBtnLayout = new QHBoxLayout;
+
+
+    masterResLay->addLayout(resultLayout);
+
 
     graphStack = new QStackedLayout;
     resultLayout->addLayout(graphStack);
@@ -323,7 +332,7 @@ void FittsView::initWindows() {
     plot2->setRubberBand(QChartView::HorizontalRubberBand);
     graphStack->addWidget(plot2);
 
-    QGroupBox *resultBox =  new QGroupBox("Statistiques");
+    QGroupBox *resultBox =  new QGroupBox("  Statistiques");
     resultLayout->addWidget(resultBox);
     QGridLayout *resultBoxLayout = new QGridLayout(resultBox);
 
@@ -363,12 +372,18 @@ void FittsView::initWindows() {
     btnLayout = new QHBoxLayout;
     resultLayout->addLayout(btnLayout);
 
-    startBtn2 = new QPushButton("Démarrer la simulation");
-    startBtn2->setMinimumHeight(30);
-    startBtn2->setMinimumWidth(300);
-    startBtn2->setMaximumWidth(300);
-    startBtn2->setCursor(Qt::PointingHandCursor);
-    btnLayout->addWidget(startBtn2);
+
+
+    exportXmlBtn = new QPushButton("Exporter la simulation");
+    exportXmlBtn->setMinimumHeight(30);
+    exportXmlBtn->setCursor(Qt::PointingHandCursor);
+
+    importXmlBtn = new QPushButton("Importer une simulation");
+    importXmlBtn->setMinimumHeight(30);
+    importXmlBtn->setCursor(Qt::PointingHandCursor);
+
+    btnLayout->addWidget(exportXmlBtn);
+    btnLayout->addWidget(importXmlBtn);
 
 }
 
@@ -390,6 +405,7 @@ void FittsView::displayResults() {
 
 void FittsView::setTheme(int theme){
     if(theme==0){//White mode
+        this->set->setValue("set/darkmode",0);
         this->theme ="\
                 QMainWindow {\
                     background-color: lightblue;\
@@ -397,14 +413,17 @@ void FittsView::setTheme(int theme){
                 QPushButton {\
                     color: white; background-color: #2596be; border-radius: 5px;\
                 }\
+                QLabel#save {\
+                    color: white; background-color: #2596be; border-radius: 5px; padding: 0px;\
+                }\
                 QPushButton#menu {\
                     color: white; background-color: #2596be; border-radius: 25px;\
                 }\
                 QPushButton:hover {\
-                    background-color: red;\
+                    background-color: #1d7595;\
                 }\
                 QPushButton#menu:hover {\
-                    background-color: red;\
+                    background-color: #1d7595;\
                 }\
                 QGroupBox {\
                     background-color: #2596be;\
@@ -417,6 +436,8 @@ void FittsView::setTheme(int theme){
                 QLabel {\
                     background-color: #2596be;\
                     color: white;\
+                    padding: 20px;\
+                    border-radius: 10px;\
                 }\
                 QSlider {\
                     background-color: #2596be;\
@@ -429,31 +450,39 @@ void FittsView::setTheme(int theme){
                     margin: 0px;\
                 }\
                 QSlider::handle:horizontal {\
-                    background-color: black;\
+                    background-color: #1d7595;\
                     border-radius: 5px;\
                     height: 10px;\
                     width: 10px;\
                 }\
+                QGraphicsView {\
+                    background-color: white;\
+                    border-radius: 10px;\
+                }\
                 ";
     }else{//Dark mode
+        this->set->setValue("set/darkmode",1);
         this->theme ="\
                 QMainWindow {\
                     background-color: black;\
                 }\
                 QPushButton {\
-                    color: white; background-color: #2596be; border-radius: 5px;\
+                    color: white; background-color: #1d7595; border-radius: 5px;\
+                }\
+                QLabel#save {\
+                    color: white; background-color: #1d7595; border-radius: 5px; padding: 0px;\
                 }\
                 QPushButton#menu {\
-                    color: white; background-color: #2596be; border-radius: 25px;\
+                    color: white; background-color: #1d7595; border-radius: 25px;\
                 }\
                 QPushButton:hover {\
-                    background-color: red;\
+                    background-color: #2596be;\
                 }\
                 QPushButton#menu:hover {\
-                    background-color: red;\
+                    background-color: #2596be;\
                 }\
                 QGroupBox {\
-                    background-color: #2596be;\
+                    background-color: #1d7595;\
                     color: white;\
                     font-size: 15px;\
                     font-weight: bold;\
@@ -461,24 +490,34 @@ void FittsView::setTheme(int theme){
                     padding: 20px\
                 }\
                 QLabel {\
-                    background-color: #2596be;\
+                    background-color: #1d7595;\
                     color: white;\
+                    padding: 20px;\
+                    border-radius: 10px;\
                 }\
                 QSlider {\
-                    background-color: #2596be;\
+                    background-color: #1d7595;\
                     color: white;\
                 }\
                 QSlider::groove:horizontal {\
                     height: 10px;\
                     border-radius: 5px;\
-                    background-color: white;\
+                    background-color: black;\
                     margin: 0px;\
                 }\
                 QSlider::handle:horizontal {\
-                    background-color: black;\
+                    background-color: #2596be;\
                     border-radius: 5px;\
                     height: 10px;\
                     width: 10px;\
+                }\
+                QGraphicsView {\
+                    background-color: #303030;\
+                    border-radius: 10px;\
+                }\
+                QChartView {\
+                    background-color: #303030;\
+                    border-radius: 10px;\
                 }\
                 ";
 
