@@ -32,8 +32,6 @@ FittsView::FittsView(FittsModel *fittsModel, FittsController *fittsController) :
     this->initWindows();
 
     // Btn clicked
-    connect(startBtn,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
-    connect(startBtn2,SIGNAL(clicked()),fittsController,SLOT(startSimulation()));
 
     connect(themeSelect, SIGNAL(stateChanged(int)), this, SLOT(setTheme(int)));
 
@@ -165,9 +163,6 @@ void FittsView::initWindows() {
         this->themeSelect->setChecked(false);
     }
     rappelLayout->addStretch();
-
-    label = new QLabel;
-    label->setPixmap(QPixmap(QDir::currentPath() + "/fitts.png").scaled(500,400,Qt::KeepAspectRatio));
 
 
     QGroupBox *configBox = new QGroupBox(" Configuration du test :");
